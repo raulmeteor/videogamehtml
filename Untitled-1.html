@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Quién soy? · te amo muchisimo mi amor</title>
+<style>
+:root{--bg:#faf7f5;--card:#fff;--ink:#1d1b20;--mute:#6b6670;--line:#e9e3df;--acc:#e5484d;--acc-ink:#fff;--soft:#fdecec;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141216;--card:#1f1c22;--ink:#f4f1f5;--mute:#a49eaa;--line:#2f2b34;--acc:#ff6369;--acc-ink:#1a1012;--soft:#2c1c1f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141216;--card:#1f1c22;--ink:#f4f1f5;--mute:#a49eaa;--line:#2f2b34;--acc:#ff6369;--acc-ink:#1a1012;--soft:#2c1c1f;color-scheme:dark}
+*{box-sizing:border-box}
+html{height:100%}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;display:flex;align-items:center;justify-content:center;padding:16px}
+#app{width:100%;max-width:420px;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px 24px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.06)}
+h1{margin:.1em 0 .2em;font-size:30px;letter-spacing:-.02em}
+h2{margin:.2em 0 .3em;font-size:21px;letter-spacing:-.01em}
+.mute{color:var(--mute);font-size:15px;margin:.4em 0}
+.emoji{font-size:44px;line-height:1.2}
+.score{font-size:13px;color:var(--mute);margin-bottom:6px}
+input{width:100%;padding:14px;margin:6px 0;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font:inherit;text-align:center}
+.btn{display:block;width:100%;min-height:50px;margin-top:12px;padding:0 14px;border:0;border-radius:14px;background:var(--acc);color:var(--acc-ink);font:inherit;font-weight:600;cursor:pointer}
+.btn:active{transform:scale(.98)}
+.btn.alt{background:var(--soft);color:var(--ink)}
+.btn.ghost{background:none;color:var(--mute);font-weight:500}
+.row{display:flex;gap:10px}.row .btn{flex:1}
+.big{font-size:34px;font-weight:800;letter-spacing:-.02em;margin:12px 0 8px;line-height:1.15}
+.mid{font-size:24px;font-weight:800;letter-spacing:-.01em;margin:2px 0 2px}
+.tag{display:inline-block;padding:4px 12px;border-radius:99px;background:var(--soft);font-size:14px}
+.sep{border-top:1px solid var(--line);margin:18px 0 6px}
+.reto{background:var(--soft);border-radius:14px;padding:12px 14px;margin-top:14px;font-size:15px}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const C={
+Películas:"Spider-Man|Spider-Man;Batman|The Dark Knight;Superman|Superman;Iron Man|Los Vengadores;Capitán América|Los Vengadores;Thor|Thor;Hulk|Los Vengadores;Viuda Negra|Los Vengadores;Pantera Negra|Black Panther;Wonder Woman|Wonder Woman;Deadpool|Deadpool;Lobezno|X-Men;Joker|Batman / Joker;Harley Quinn|Escuadrón Suicida;Thanos|Los Vengadores: Infinity War;Groot|Guardianes de la Galaxia;Darth Vader|Star Wars;Yoda|Star Wars;Luke Skywalker|Star Wars;Harry Potter|Harry Potter;Hermione Granger|Harry Potter;Voldemort|Harry Potter;Gandalf|El Señor de los Anillos;Frodo|El Señor de los Anillos;Gollum|El Señor de los Anillos;Jack Sparrow|Piratas del Caribe;Indiana Jones|Indiana Jones;James Bond|007;Shrek|Shrek;Elsa|Frozen;Olaf|Frozen;Simba|El Rey León;Scar|El Rey León;Woody|Toy Story;Buzz Lightyear|Toy Story;Nemo|Buscando a Nemo;Dory|Buscando a Nemo;Vaiana|Vaiana;Mulan|Mulan;Cenicienta|Cenicienta;Ariel|La Sirenita;Bella|La Bella y la Bestia;Aladdín|Aladdín;Rayo McQueen|Cars;Mike Wazowski|Monstruos, S.A.;Po|Kung Fu Panda;Wall-E|Wall-E;Barbie|Barbie;Willy Wonka|Charlie y la fábrica de chocolate;Forrest Gump|Forrest Gump;Rocky Balboa|Rocky;Katniss Everdeen|Los Juegos del Hambre;Minion|Gru, Mi Villano Favorito",
+Series:"Homer Simpson|Los Simpson;Bart Simpson|Los Simpson;Peter Griffin|Padre de familia;Bob Esponja|Bob Esponja;Patricio Estrella|Bob Esponja;Eric Cartman|South Park;Rick Sanchez|Rick y Morty;Walter White|Breaking Bad;Sheldon Cooper|The Big Bang Theory;Joey Tribbiani|Friends;Rachel Green|Friends;Ross Geller|Friends;Chandler Bing|Friends;Michael Scott|The Office;Eleven|Stranger Things;Daenerys Targaryen|Juego de Tronos;Jon Snow|Juego de Tronos;Tyrion Lannister|Juego de Tronos;Sherlock Holmes|Sherlock;Miércoles Addams|Miércoles;Grogu|The Mandalorian;Mr. Bean|Mr. Bean;Barney Stinson|Cómo conocí a vuestra madre;Elmo|Barrio Sésamo;Kermit la Rana|Los Teleñecos;El Profesor|La casa de papel;Tokio|La casa de papel;Berlín|La casa de papel",
+Anime:"Goku|Dragon Ball;Vegeta|Dragon Ball Z;Naruto|Naruto;Luffy|One Piece;Pikachu|Pokémon;Ash Ketchum|Pokémon;Sailor Moon|Sailor Moon;Totoro|Mi vecino Totoro;Chihiro|El viaje de Chihiro;Doraemon|Doraemon;Tanjiro|Demon Slayer;Eren Jaeger|Ataque a los Titanes;Shin-chan|Shin-chan",
+Videojuegos:"Mario|Super Mario Bros.;Luigi|Super Mario Bros.;Princesa Peach|Super Mario Bros.;Bowser|Super Mario Bros.;Sonic|Sonic the Hedgehog;Link|The Legend of Zelda;Zelda|The Legend of Zelda;Donkey Kong|Donkey Kong;Pac-Man|Pac-Man;Lara Croft|Tomb Raider;Kratos|God of War;Steve|Minecraft;Creeper|Minecraft;Master Chief|Halo;Crash Bandicoot|Crash Bandicoot;Kirby|Kirby;Geralt de Rivia|The Witcher",
+Dibujos:"Bugs Bunny|Looney Tunes;Piolín|Looney Tunes;Tom|Tom y Jerry;Jerry|Tom y Jerry;Scooby-Doo|Scooby-Doo;Garfield|Garfield;Snoopy|Peanuts;Dora la Exploradora|Dora la Exploradora;Peppa Pig|Peppa Pig;Bluey|Bluey;Finn el Humano|Hora de aventuras;La Pantera Rosa|La Pantera Rosa;Popeye|Popeye;Hello Kitty|Sanrio;Mafalda|Mafalda;El Chavo|El Chavo del 8;Astérix|Astérix y Obélix;Tintín|Las aventuras de Tintín;Pato Donald|Disney;Goofy|Disney;Pocoyó|Pocoyó;Peter Pan|Peter Pan;Campanilla|Peter Pan;Alicia|Alicia en el país de las maravillas;Pinocho|Pinocho;Blancanieves|Blancanieves y los siete enanitos;Drácula|Drácula;Frankenstein|Frankenstein;Don Quijote|Don Quijote de la Mancha"};
+const CE={Películas:"🎬",Series:"📺",Anime:"🍥",Videojuegos:"🎮",Dibujos:"🎨"};
+const ALL=Object.entries(C).flatMap(([cat,s])=>s.split(";").map(x=>{const p=x.split("|");return{n:p[0],src:p[1],cat}}));
+const RETOS=["Quien perdió elige la película o serie para ver juntos por videollamada 🎬","Quien perdió manda un audio con 3 cosas que le encantan de su pareja 🎙️","Quien perdió cuenta su recuerdo favorito juntos 💭","Quien perdió manda una foto de lo que está haciendo ahora mismo 📸","Quien perdió propone el primer plan para cuando se vean en persona ✈️","Quien perdió canta un trozo de canción por la videollamada 🎤","Quien perdió dice algo que echa de menos de su pareja 💌","Quien perdió pone la canción que suena en la próxima llamada 🎵","Quien perdió imita al personaje de su pareja 🎭"];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function rng(seed){let a=0;for(const c of seed)a=(Math.imul(a,31)+c.charCodeAt(0))>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+let S={step:"setup",me:"",pa:"",room:"amor-"+(100+Math.floor(Math.random()*900)),role:0,round:0,score:[0,0],show:false,h:0,win:-1,deck:[]};
+try{Object.assign(S,JSON.parse(localStorage.getItem("quiensoy")||"{}"))}catch(e){}
+S.step="setup";
+const tag=c=>`<span class="tag">${CE[c.cat]} ${c.cat}</span>`;
+const L=S2=>S2.deck.length;
+const pair=()=>{const n=S.deck.length,i=(2*S.round)%n;return[S.deck[i],S.deck[(i+1)%n]]};
+const mine=()=>pair()[S.role],theirs=()=>pair()[1-S.role];
+const head=()=>`<div class="score">Ronda ${S.round+1} · Tú ${S.score[0]} – ${S.score[1]} ${esc(S.pa)}</div>`;
+function grab(){const g=id=>document.getElementById(id);if(g("me")){S.me=g("me").value.trim();S.pa=g("pa").value.trim();S.room=g("room").value.trim()||S.room}}
+function render(){
+  let h="";
+  if(S.step==="setup"){
+    h=`<div class="emoji">💞</div><h1>¿Quién soy?</h1>
+<p class="mute">Edición a distancia. Poneos en videollamada 📹 y abrid este enlace los dos con el <b>mismo código de sala</b>. Cada uno ve el personaje de su pareja… ¡y tiene que adivinar el suyo!</p>
+<input id="me" placeholder="Tu nombre" maxlength="16" value="${esc(S.me)}">
+<input id="pa" placeholder="Nombre de tu pareja" maxlength="16" value="${esc(S.pa)}">
+<input id="room" placeholder="Código de sala" maxlength="20" value="${esc(S.room)}">
+<p class="mute">Uno inventa el código y se lo manda al otro.</p>
+<div class="row"><button class="btn ${S.role===0?"":"alt"}" data-a="role" data-i="0">Jugador 1</button><button class="btn ${S.role===1?"":"alt"}" data-a="role" data-i="1">Jugador 2</button></div>
+<p class="mute">Cada uno elige un número distinto.</p>
+<button class="btn" data-a="start">Empezar 💕</button>`;
+  }else if(S.step==="play"){
+    const t=theirs(),m=mine();
+    h=`${head()}<h2>Personaje de ${esc(S.pa||"tu pareja")}</h2>
+<p class="mute">Respóndele con sí o no. ¡No le digas el nombre!</p>
+${S.show?`<div class="big">${esc(t.n)}</div>${tag(t)}<p class="mute">🎞️ Sale en: <b>${esc(t.src)}</b></p><button class="btn alt" data-a="hide">Ocultar</button>`:`<div class="big">🙈</div><button class="btn alt" data-a="showc">Toca para ver su personaje</button>`}
+<div class="sep"></div><h2>Tus pistas</h2>
+${S.h>=1?`<p class="mute">Categoría: ${tag(m)}</p>`:""}${S.h>=2?`<p class="mute">🎞️ Sale en: <b>${esc(m.src)}</b></p>`:""}
+${S.h<2?`<button class="btn alt" data-a="hint">💡 ${S.h===0?"Pista 1: categoría":"Pista 2: ¿de qué película o serie sale?"}</button>`:""}
+<div class="sep"></div>
+<div class="row"><button class="btn" data-a="win" data-i="0">¡Lo adiviné! ✓</button><button class="btn" data-a="win" data-i="1">${esc(S.pa||"Tu pareja")} lo adivinó ✓</button></div>
+<button class="btn ghost" data-a="giveup">Nos rendimos</button>`;
+  }else{
+    const t=theirs(),m=mine();
+    h=`${head()}<div class="emoji">${S.win>=0?"🎉":"😅"}</div><h2>${S.win===0?"¡Acertaste!":S.win===1?esc(S.pa||"Tu pareja")+" acertó":"Nadie esta vez"}</h2>
+<p class="mute">Tú eras</p><div class="mid">${esc(m.n)}</div><p class="mute">${esc(m.src)}</p>
+<p class="mute">${esc(S.pa||"Tu pareja")} era</p><div class="mid">${esc(t.n)}</div><p class="mute">${esc(t.src)}</p>
+${S.win>=0?`<div class="reto"><b>Reto:</b> ${RETOS[(S.round+S.room.length)%RETOS.length]}</div>`:""}
+<p class="mute">Marcad lo mismo en los dos móviles para que coincida el marcador.</p>
+<button class="btn" data-a="next">Siguiente ronda</button>
+<button class="btn ghost" data-a="reset">Cambiar ajustes</button>`;
+  }
+  document.getElementById("app").innerHTML=h;
+}
+document.getElementById("app").addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;
+  const a=b.dataset.a,i=b.dataset.i;
+  if(S.step==="setup")grab();
+  if(a==="role")S.role=+i;
+  else if(a==="start"){
+    const r=rng(S.room.toLowerCase()),d=ALL.slice();
+    for(let k=d.length-1;k>0;k--){const j=Math.floor(r()*(k+1));[d[k],d[j]]=[d[j],d[k]]}
+    S.deck=d;S.round=0;S.score=[0,0];S.show=false;S.h=0;S.step="play";
+    try{localStorage.setItem("quiensoy",JSON.stringify({me:S.me,pa:S.pa,room:S.room,role:S.role}))}catch(x){}
+  }
+  else if(a==="showc")S.show=true;
+  else if(a==="hide")S.show=false;
+  else if(a==="hint")S.h++;
+  else if(a==="win"){S.score[i]++;S.win=+i;S.show=false;S.step="result"}
+  else if(a==="giveup"){S.win=-1;S.show=false;S.step="result"}
+  else if(a==="next"){S.round++;S.h=0;S.show=false;S.step="play"}
+  else if(a==="reset")S.step="setup";
+  render();
+});
+render();
+</script>
+</body>
+</html>
